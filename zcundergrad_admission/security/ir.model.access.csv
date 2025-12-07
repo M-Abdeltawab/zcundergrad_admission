@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_admission_applicant_user,admission.applicant.user.access,model_admission_applicant,base.group_user,1,1,1,1
+access_education_history_user,education.history.user.access,model_education_history,base.group_user,1,1,1,1
