@@ -1,6 +1,6 @@
 {
     'name': 'ZC Undergraduate Admission',
-    'version': '19.0',
+    'version': '19.0.1.0',
     'summary': 'Undergraduate Admission Management System',
     'description': 'Manage undergraduate admissions process',
     'category': 'Education',
@@ -8,6 +8,7 @@
     'website': 'https://admissions.zewailcity.edu.eg/',
     'depends': ['base', 'portal'],
     'data': [
+        'security/ir.model.access.csv',
         'views/admission_applicant_views.xml',
         'views/education_history_views.xml',
         'views/portal_templates.xml',
@@ -17,3 +18,4 @@
     'application': True,
     'auto_install': False,
 }
+
