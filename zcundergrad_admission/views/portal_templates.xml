@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="portal_my_applicants_menu" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_submenu')]//ul" position="inside">
+            <li>
+                <a t-attf-href="/my/applications" role="menuitem">
+                    My Applications
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_applicants_sidebar" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[@id='o_portal_sidebar_content']" position="inside">
+            <div class="py-3">
+                <a t-attf-href="/my/applications" class="btn btn-primary w-100">
+                    <i class="fa fa-file-text me-2"></i>My Applications
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_applicant_page" name="Applicant Portal Page">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs">
+                <li class="breadcrumb-item">
+                    <a href="/my">My Account</a>
+                </li>
+                <li class="breadcrumb-item active">My Application</li>
+            </t>
+            
+            <div class="container mt-4">
+                <h2>My Application</h2>
+                
+                <t t-if="applicant">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0" t-esc="applicant.name"/>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <strong>Date of Birth:</strong>
+                                        <span t-esc="applicant.date_of_birth"/>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Gender:</strong>
+                                        <span t-esc="applicant.gender"/>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Nationality:</strong>
+                                        <span t-esc="applicant.nationality.name"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <strong>Email:</strong>
+                                        <span t-esc="applicant.email"/>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Phone:</strong>
+                                        <span t-esc="applicant.phone"/>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Mobile:</strong>
+                                        <span t-esc="applicant.mobile"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="mb-0">
+                                <strong>Address:</strong>
+                                <span t-esc="applicant.address"/>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <strong>Status:</strong>
+                            <span t-attf-class="badge bg-{{
+                                'success' if applicant.state == 'accepted' else
+                                'danger' if applicant.state == 'rejected' else
+                                'warning' if applicant.state == 'under_review' else
+                                'info' if applicant.state == 'submitted' else
+                                'secondary'
+                            }}">
+                                <t t-esc="applicant.state"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">Education History</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Institution</th>
+                                            <th>Qualification</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="applicant.education_history_ids" t-as="edu">
+                                            <tr>
+                                                <td t-esc="edu.institution_name"/>
+                                                <td t-esc="edu.qualification"/>
+                                                <td t-esc="edu.start_date"/>
+                                                <td t-esc="edu.end_date"/>
+                                                <td t-esc="edu.grade"/>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                
+                <t t-if="not applicant">
+                    <div class="alert alert-warning mt-4">
+                        <i class="fa fa-exclamation-triangle me-2"></i>
+                        No application linked to your account yet.
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>
