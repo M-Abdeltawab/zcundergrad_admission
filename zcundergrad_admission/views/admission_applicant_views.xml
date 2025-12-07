@@ -1,19 +1,21 @@
-<?xml version="19.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!-- Tree view -->
+    <!-- List view -->
     <record id="view_admission_applicant_tree" model="ir.ui.view">
         <field name="name">admission.applicant.tree</field>
         <field name="model">admission.applicant</field>
+        <field name="type">list</field>
+        <field name="priority" eval="16"/>
         <field name="arch" type="xml">
-            <tree string="Applicants">
+            <list string="Applicants">
                 <field name="name"/>
                 <field name="email"/>
                 <field name="phone"/>
                 <field name="mobile"/>
                 <field name="nationality"/>
-                <field name="state"/>
-            </tree>
+                <field name="state" widget="badge"/>
+            </list>
         </field>
     </record>
 
@@ -21,11 +23,11 @@
     <record id="view_admission_applicant_form" model="ir.ui.view">
         <field name="name">admission.applicant.form</field>
         <field name="model">admission.applicant</field>
+        <field name="type">form</field>
+        <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <form string="Admission Applicant">
-
                 <sheet>
-
                     <header>
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,submitted,under_review,accepted,rejected"/>
@@ -54,21 +56,16 @@
                     <notebook>
                         <page string="Education History">
                             <field name="education_history_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="institution_name"/>
                                     <field name="qualification"/>
                                     <field name="start_date"/>
                                     <field name="end_date"/>
                                     <field name="grade"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
-
-                    <group string="OAuth Info" invisible="1">
-                        <field name="oauth_uid"/>
-                        <field name="oauth_provider"/>
-                    </group>
 
                 </sheet>
             </form>
@@ -79,6 +76,8 @@
     <record id="view_admission_applicant_search" model="ir.ui.view">
         <field name="name">admission.applicant.search</field>
         <field name="model">admission.applicant</field>
+        <field name="type">search</field>
+        <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <search string="Search Applicants">
                 <field name="name"/>
@@ -87,6 +86,10 @@
                 <field name="nationality"/>
                 <filter name="filter_accepted" string="Accepted" domain="[('state','=','accepted')]"/>
                 <filter name="filter_rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="filter_submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="filter_under_review" string="Under Review" domain="[('state','=','under_review')]"/>
             </search>
         </field>
     </record>
@@ -95,7 +98,12 @@
     <record id="action_admission_applicants" model="ir.actions.act_window">
         <field name="name">Admission Applicants</field>
         <field name="res_model">admission.applicant</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No admission applicants found. Let's create one!
+            </p>
+        </field>
     </record>
 
     <menuitem id="menu_admission_root" name="Admission"/>
