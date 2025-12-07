@@ -1,0 +1,108 @@
+<?xml version="19.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Tree view -->
+    <record id="view_admission_applicant_tree" model="ir.ui.view">
+        <field name="name">admission.applicant.tree</field>
+        <field name="model">admission.applicant</field>
+        <field name="arch" type="xml">
+            <tree string="Applicants">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="nationality"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_admission_applicant_form" model="ir.ui.view">
+        <field name="name">admission.applicant.form</field>
+        <field name="model">admission.applicant</field>
+        <field name="arch" type="xml">
+            <form string="Admission Applicant">
+
+                <sheet>
+
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,submitted,under_review,accepted,rejected"/>
+                    </header>
+
+                    <group string="Personal Information">
+                        <field name="name"/>
+                        <field name="date_of_birth"/>
+                        <field name="gender"/>
+                        <field name="nationality"/>
+                    </group>
+
+                    <group string="Contact Details" col="2">
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="mobile"/>
+                        <field name="address"/>
+                    </group>
+
+                    <group string="Emergency Contact">
+                        <field name="emergency_contact_name"/>
+                        <field name="emergency_contact_phone"/>
+                        <field name="emergency_contact_relation"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Education History">
+                            <field name="education_history_ids">
+                                <tree editable="bottom">
+                                    <field name="institution_name"/>
+                                    <field name="qualification"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="grade"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <group string="OAuth Info" invisible="1">
+                        <field name="oauth_uid"/>
+                        <field name="oauth_provider"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_admission_applicant_search" model="ir.ui.view">
+        <field name="name">admission.applicant.search</field>
+        <field name="model">admission.applicant</field>
+        <field name="arch" type="xml">
+            <search string="Search Applicants">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="nationality"/>
+                <filter name="filter_accepted" string="Accepted" domain="[('state','=','accepted')]"/>
+                <filter name="filter_rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_admission_applicants" model="ir.actions.act_window">
+        <field name="name">Admission Applicants</field>
+        <field name="res_model">admission.applicant</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_admission_root" name="Admission"/>
+    
+    <menuitem id="menu_admission_applicants"
+              name="Applicants"
+              parent="menu_admission_root"
+              action="action_admission_applicants"/>
+
+</odoo>
